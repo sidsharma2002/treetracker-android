@@ -13,5 +13,5 @@ class SplashScreenViewModel(
         preferencesMigrator.migrateIfNeeded()
     }
 
-    suspend fun requiresInitialSetup(): Boolean = users.getPowerUser() == null
+    suspend fun requiresInitialSetup(): Boolean = false//users.getPowerUser() == null
 }
