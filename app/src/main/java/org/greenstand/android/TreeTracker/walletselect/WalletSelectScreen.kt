@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,12 +26,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import org.greenstand.android.TreeTracker.R
 import org.greenstand.android.TreeTracker.models.NavRoute
 import org.greenstand.android.TreeTracker.models.user.User
 import org.greenstand.android.TreeTracker.root.LocalNavHostController
 import org.greenstand.android.TreeTracker.root.LocalViewModelFactory
-import org.greenstand.android.TreeTracker.view.*
+import org.greenstand.android.TreeTracker.view.ActionBar
+import org.greenstand.android.TreeTracker.view.AppButtonColors
+import org.greenstand.android.TreeTracker.view.AppColors
+import org.greenstand.android.TreeTracker.view.ArrowButton
+import org.greenstand.android.TreeTracker.view.LocalImage
+import org.greenstand.android.TreeTracker.view.UserButton
 
 
 @Composable
@@ -46,7 +53,7 @@ fun WalletSelectScreen(
     }
 
     val navController = LocalNavHostController.current
-
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -85,9 +92,11 @@ fun WalletSelectScreen(
                         isLeft = false,
                         isEnabled = state.selectedUser != null
                     ) {
-                        state.currentUser?.let { user ->
-                            viewModel.startSession(user)
-                            navController.navigate(NavRoute.TreeCapture.create(user.photoPath))
+                        scope.launch {
+                            state.currentUser?.let { user ->
+                                viewModel.startSession()
+                                navController.navigate(NavRoute.TreeCapture.create(user.photoPath))
+                            }
                         }
                     }
                 },
@@ -123,7 +132,7 @@ fun WalletSelectScreen(
                     }
                     }
             }
-            state.alternateUsers?.let { alternateUsers ->
+            state.alternateUsers.let { alternateUsers ->
                 items(alternateUsers) { user ->
                     WalletItem(user, state.selectedUser == user) {
                         viewModel.selectPlanter(it)

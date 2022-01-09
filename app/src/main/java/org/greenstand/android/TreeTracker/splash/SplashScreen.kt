@@ -39,13 +39,15 @@ fun SplashScreen(
                 if (result[Manifest.permission.ACCESS_FINE_LOCATION] == true &&
                     result[Manifest.permission.ACCESS_COARSE_LOCATION] == true
                 ) {
-                    Timber.tag("BuildVariant").d("build variant: ${BuildConfig.BUILD_TYPE}")
 
-                    viewModel.migratePreferences()
+                    viewModel.bootstrap()
 
                     delay(1000)
 
+                    Timber.tag("BuildVariant").d("build variant: ${BuildConfig.BUILD_TYPE}")
+
                     if (viewModel.requiresInitialSetup()) {
+                        Timber.tag("TEST").d("initial setup")
                         navController.navigate(NavRoute.Language.create(isFromTopBar = false)) {
                             popUpTo(NavRoute.Splash.route) { inclusive = true }
                             launchSingleTop = true
