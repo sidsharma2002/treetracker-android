@@ -39,14 +39,11 @@ import org.greenstand.android.TreeTracker.preferences.Preferences
 import org.greenstand.android.TreeTracker.preferences.PreferencesMigrator
 import org.greenstand.android.TreeTracker.splash.SplashScreenViewModel
 import org.greenstand.android.TreeTracker.usecases.CreateFakeTreesUseCase
-import org.greenstand.android.TreeTracker.usecases.CreatePlanterCheckInUseCase
-import org.greenstand.android.TreeTracker.usecases.CreatePlanterInfoUseCase
 import org.greenstand.android.TreeTracker.usecases.CreateTreeRequestUseCase
 import org.greenstand.android.TreeTracker.usecases.CreateTreeUseCase
 import org.greenstand.android.TreeTracker.usecases.SyncDataUseCase
 import org.greenstand.android.TreeTracker.usecases.UploadImageUseCase
 import org.greenstand.android.TreeTracker.usecases.UploadLocationDataUseCase
-import org.greenstand.android.TreeTracker.usecases.ValidateCheckInStatusUseCase
 import org.greenstand.android.TreeTracker.userselect.UserSelectViewModel
 import org.greenstand.android.TreeTracker.utilities.DeviceUtils
 import org.greenstand.android.TreeTracker.viewmodels.ConfigViewModel
@@ -65,7 +62,7 @@ val appModule = module {
 
     viewModel { SignupViewModel() }
 
-    viewModel { MapViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MapViewModel(get(), get(), get(), get(), get(), get()) }
 
     viewModel { NewTreeViewModel(get(), get(), get(), get(), get(), get()) }
 
@@ -169,12 +166,6 @@ val appModule = module {
     factory { CreateTreeUseCase(get(), get(), get(), get()) }
 
     factory { CreateFakeTreesUseCase(get(), get(), get()) }
-
-    factory { CreatePlanterInfoUseCase(get(), get(), get()) }
-
-    factory { CreatePlanterCheckInUseCase(get(), get(), get(), get()) }
-
-    factory { ValidateCheckInStatusUseCase(get()) }
 
     factory { CreateTreeRequestUseCase(get()) }
 
